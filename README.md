@@ -5,19 +5,19 @@ A command-line client for connecting to MCP servers using the Model Context Prot
 ## Installation
 
 ```bash
-npm install -g mcp-client-gha
+npm install -g @lmquang/mcp-client-cli
 ```
 
 ## Usage
 
 ```bash
-npx mcp-client-gha --server-config server.json --server <server-name> --tool <tool-name> --args key1=value1 --args key2=value2
+npx @lmquang/mcp-client-cli --server-config server.json --server <server-name> --tool <tool-name> --args key1=value1 --args key2=value2
 ```
 
 Or, for complex arguments:
 
 ```bash
-npx mcp-client-gha --server-config server.json --server <server-name> --tool <tool-name> --json-args args.json
+npx @lmquang/mcp-client-cli --server-config server.json --server <server-name> --tool <tool-name> --json-args args.json
 ```
 
 ### Options
@@ -30,20 +30,18 @@ npx mcp-client-gha --server-config server.json --server <server-name> --tool <to
 
 ### Server Configuration
 
-Create a `server.json` file with the following structure:
+Create a `server.json` file with the following structure. **It is recommended to use the full path to `npx` in the `command` field to avoid PATH issues:**
 
 ```json
 {
   "mcpServers": {
     "discord-webhook": {
-      "command": "/path/to/npx",
+      "command": "/Users/youruser/.nvm/versions/node/vXX.XX.X/bin/npx",
       "args": [
         "-y",
         "@lmquang/mcp-discord-webhook@latest"
       ],
       "env": {
-        "PATH": "/path/to/node/bin:/usr/local/bin:/usr/bin:/bin",
-        "NODE_PATH": "/path/to/node/lib/node_modules",
         "OPENAI_API_KEY": "your-api-key"
       }
     }
@@ -52,16 +50,18 @@ Create a `server.json` file with the following structure:
 ```
 
 Each server entry should specify:
-- `command`: The command to run the server
+- `command`: The command to run the server (use the full path to npx for reliability)
 - `args`: Array of arguments to pass to the command
 - `env`: Environment variables to set when running the command
+
+> **Note:** Do not commit `server.json` to your repository. It may contain secrets and should be listed in `.gitignore`.
 
 ## Examples
 
 Run a tool with simple arguments:
 
 ```bash
-npx mcp-client-gha --server-config server.json --server discord-webhook --tool discord-send-embed --args username="Tech Trends Analyzer" --args webhookUrl="https://your-webhook-url" --args content="Your summary text" --args autoFormat=true --args embeds="[]"
+npx @lmquang/mcp-client-cli --server-config server.json --server discord-webhook --tool discord-send-embed --args username="Tech Trends Analyzer" --args webhookUrl="https://your-webhook-url" --args content="Your summary text" --args autoFormat=true --args embeds="[]"
 ```
 
 Run a tool with complex arguments using a JSON file:
@@ -79,5 +79,21 @@ Create `args.json`:
 
 Then run:
 ```bash
-npx mcp-client-gha --server-config server.json --server discord-webhook --tool discord-send-embed --json-args args.json
-``` 
+npx @lmquang/mcp-client-cli --server-config server.json --server discord-webhook --tool discord-send-embed --json-args args.json
+```
+
+## .gitignore and What to Commit
+
+This project uses a standard Node.js `.gitignore` file. The following files and directories are ignored:
+
+- `node_modules/`
+- `logs/`, `*.log`, debug logs
+- `coverage/`, `.nyc_output/`, `.grunt/`, `bower_components/`, `build/Release/`, `jspm_packages/`
+- `*.tsbuildinfo`, `.npm`, `.eslintcache`
+- `.env`, `.env.*`
+- `.DS_Store`, `.vscode/`
+- `server.json` (contains secrets and local configuration)
+
+**Commit only source code, documentation, and configuration files that do not contain secrets.**
+
+If you need to share a server configuration, provide a `server.json.example` file with placeholder values and no secrets. 
