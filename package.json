@@ -5,6 +5,9 @@
   "bin": {
     "mcp-client-cli": "./bin/cli.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "node bin/cli.js",
     "publish:patch": "./scripts/publish.sh patch",
