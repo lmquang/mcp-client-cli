@@ -1,0 +1,47 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*' # Run workflow on version tags, e.g. v1.0.0
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        
+      - name: Check if version exists
+        id: version-check
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          PKG_NAME=$(node -p "require('./package.json').name")
+          echo "Package: $PKG_NAME@$PKG_VERSION"
+          
+          # Check if the version already exists
+          if npm view "$PKG_NAME@$PKG_VERSION" version &> /dev/null; then
+            echo "Version $PKG_VERSION already exists. Please increment the version number."
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $PKG_VERSION is available for publishing."
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish to npm
+        if: steps.version-check.outputs.exists != 'true'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 

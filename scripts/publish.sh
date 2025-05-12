@@ -32,4 +32,3 @@ echo "Pushing changes and tags..."
 git push && git push --tags
 
 echo "Done! GitHub Actions will now build and publish the package."
-echo "Check the status at: https://github.com/lmquang/mcp-discord-webhook/actions" 
