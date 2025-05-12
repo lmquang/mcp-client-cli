@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "discord-webhook": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lmquang/mcp-discord-webhook@latest"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "OPENAI_API_KEY"
+      }
+    }
+  }
+} 

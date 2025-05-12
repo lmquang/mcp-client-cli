@@ -1,0 +1,13 @@
+{
+  "name": "mcp-client-cli",
+  "version": "1.0.0",
+  "description": "MCP client for CLI",
+  "bin": {
+    "mcp-client-cli": "./bin/cli.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.1",
+    "yargs": "^17.7.2"
+  }
+} 
