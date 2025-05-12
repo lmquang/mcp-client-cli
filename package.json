@@ -5,6 +5,12 @@
   "bin": {
     "mcp-client-cli": "./bin/cli.js"
   },
+  "scripts": {
+    "start": "node bin/cli.js",
+    "publish:patch": "./scripts/publish.sh patch",
+    "publish:minor": "./scripts/publish.sh minor",
+    "publish:major": "./scripts/publish.sh major"
+  },
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.1",
