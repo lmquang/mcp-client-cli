@@ -82,18 +82,4 @@ Then run:
 npx @lmquang/mcp-client-cli --server-config server.json --server discord-webhook --tool discord-send-embed --json-args args.json
 ```
 
-## .gitignore and What to Commit
-
-This project uses a standard Node.js `.gitignore` file. The following files and directories are ignored:
-
-- `node_modules/`
-- `logs/`, `*.log`, debug logs
-- `coverage/`, `.nyc_output/`, `.grunt/`, `bower_components/`, `build/Release/`, `jspm_packages/`
-- `*.tsbuildinfo`, `.npm`, `.eslintcache`
-- `.env`, `.env.*`
-- `.DS_Store`, `.vscode/`
-- `server.json` (contains secrets and local configuration)
-
-**Commit only source code, documentation, and configuration files that do not contain secrets.**
-
 If you need to share a server configuration, provide a `server.json.example` file with placeholder values and no secrets. 
